@@ -48,12 +48,22 @@ export default function App() {
     monto: '',
     diferido: '',
     diferidoTotal: '',
-    recurrente: false
+    recurrente: false,
+    gastoExterior: false
   });
 
   // Configuration state
   const [status, setStatus] = useState('idle'); // idle, submitting, success, error
   const [responseMsg, setResponseMsg] = useState('');
+
+  // Deshabilitar botón si no hay monto o es <= 0
+  const montoNum = parseFloat(formData.monto);
+  const isSubmitDisabled =
+    status === 'submitting' ||
+    formData.monto === '' ||
+    formData.monto == null ||
+    Number.isNaN(montoNum) ||
+    montoNum <= 0;
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -68,10 +78,23 @@ export default function App() {
 
     setStatus('submitting');
 
+    // Calcular monto con recargo del 5% si es gasto en el exterior
+    const montoBase = parseFloat(formData.monto || '0');
+    const montoEsValido = !Number.isNaN(montoBase);
+    const montoConRecargo =
+      formData.gastoExterior && montoEsValido
+        ? (montoBase * 1.05).toFixed(2)
+        : formData.monto;
+
+    const payload = {
+      ...formData,
+      monto: montoConRecargo
+    };
+
     try {
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: JSON.stringify(payload)
       });
 
       const data = await response.json();
@@ -85,7 +108,8 @@ export default function App() {
           monto: '',
           detalle: '',
           diferido: '',
-          diferidoTotal: ''
+          diferidoTotal: '',
+          gastoExterior: false
         }));
       } else {
         setStatus('error');
@@ -157,6 +181,28 @@ export default function App() {
               onChange={handleChange}
               className="w-full p-3 font-mono text-lg transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-green-100 focus:border-green-500"
             />
+            <div className="flex items-center mt-2">
+              <input
+                type="checkbox"
+                id="gastoExterior"
+                name="gastoExterior"
+                checked={formData.gastoExterior}
+                onChange={handleChange}
+                disabled={formData.monto === '' || formData.monto == null || Number.isNaN(parseFloat(formData.monto)) || parseFloat(formData.monto) <= 0}
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="gastoExterior" className="ml-2 text-sm text-slate-700">
+                Gasto en el exterior (+5% al monto)
+              </label>
+            </div>
+            {formData.gastoExterior && !Number.isNaN(parseFloat(formData.monto || '')) && (
+              <p className="mt-1 text-xs text-slate-600">
+                Total con 5%:{' '}
+                <span className="font-semibold">
+                  {(parseFloat(formData.monto || '0') * 1.05).toFixed(2)}
+                </span>
+              </p>
+            )}
           </div>
 
           {/* Category & Responsible */}
@@ -261,9 +307,9 @@ export default function App() {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={status === 'submitting'}
+            disabled={isSubmitDisabled}
             className={`w-full flex items-center justify-center py-3 px-4 rounded-lg text-white font-semibold shadow-md transition-all ${
-              status === 'submitting'
+              isSubmitDisabled
                 ? 'bg-slate-400 cursor-not-allowed'
                 : 'bg-blue-600 hover:bg-blue-700 active:scale-95'
             }`}
