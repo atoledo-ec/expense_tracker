@@ -7,8 +7,8 @@ const OPTIONS = {
     "Deuda Juanis",
     "Diners",
     "Efectivo",
-    "Mastercard",
-    "Visa"
+    "MSC Pichincha",
+    "Visa Produ"
   ],
   categorias: [
     "Ahorro",
@@ -99,13 +99,13 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans py-8 px-4">
-      <div className="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+    <div className="min-h-screen px-4 py-8 font-sans bg-slate-50 text-slate-800">
+      <div className="max-w-md mx-auto overflow-hidden bg-white border shadow-xl rounded-2xl border-slate-100">
 
         {/* Header */}
-        <div className="bg-blue-600 p-6 text-center">
+        <div className="p-6 text-center bg-blue-600">
           <h1 className="text-2xl font-bold text-white">Expense Tracker</h1>
-          <p className="text-blue-100 text-sm mt-1">Add new entry to Google Sheets</p>
+          <p className="mt-1 text-sm text-blue-100">Add new entry to Google Sheets</p>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -113,14 +113,14 @@ export default function App() {
           {/* Row 1: Type (Egreso) & Date */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+              <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
                 <CreditCard className="w-4 h-4 mr-1 text-blue-500" /> Payment
               </label>
               <select
                 name="egreso"
                 value={formData.egreso}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all bg-white"
+                className="w-full p-2 transition-all bg-white border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
               >
                 {OPTIONS.egresos.map(opt => (
                   <option key={opt} value={opt}>{opt}</option>
@@ -128,7 +128,7 @@ export default function App() {
               </select>
             </div>
             <div>
-              <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+              <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
                 <Calendar className="w-4 h-4 mr-1 text-blue-500" /> Date
               </label>
               <input
@@ -137,14 +137,14 @@ export default function App() {
                 required
                 value={formData.fecha}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all"
+                className="w-full p-2 transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
               />
             </div>
           </div>
 
           {/* Amount */}
           <div>
-            <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+            <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
               <DollarSign className="w-4 h-4 mr-1 text-green-600" /> Amount (Monto)
             </label>
             <input
@@ -155,21 +155,21 @@ export default function App() {
               placeholder="0.00"
               value={formData.monto}
               onChange={handleChange}
-              className="w-full text-lg p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-green-100 focus:border-green-500 transition-all font-mono"
+              className="w-full p-3 font-mono text-lg transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-green-100 focus:border-green-500"
             />
           </div>
 
           {/* Category & Responsible */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+              <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
                 <Tag className="w-4 h-4 mr-1 text-blue-500" /> Category
               </label>
               <select
                 name="categoria"
                 value={formData.categoria}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all bg-white"
+                className="w-full p-2 transition-all bg-white border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
               >
                 {OPTIONS.categorias.map(opt => (
                   <option key={opt} value={opt}>{opt}</option>
@@ -177,14 +177,14 @@ export default function App() {
               </select>
             </div>
             <div>
-              <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+              <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
                 <User className="w-4 h-4 mr-1 text-blue-500" /> Responsible
               </label>
               <select
                 name="responsable"
                 value={formData.responsable}
                 onChange={handleChange}
-                className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all bg-white"
+                className="w-full p-2 transition-all bg-white border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
               >
                 {OPTIONS.responsables.map(opt => (
                   <option key={opt} value={opt}>{opt}</option>
@@ -195,7 +195,7 @@ export default function App() {
 
           {/* Detail */}
           <div>
-            <label className="flex items-center text-sm font-medium text-slate-700 mb-1">
+            <label className="flex items-center mb-1 text-sm font-medium text-slate-700">
               <FileText className="w-4 h-4 mr-1 text-blue-500" /> Detail
             </label>
             <textarea
@@ -205,13 +205,13 @@ export default function App() {
               placeholder="Description of expense..."
               value={formData.detalle}
               onChange={handleChange}
-              className="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-500 transition-all"
+              className="w-full p-2 transition-all border rounded-lg border-slate-300 focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
             />
           </div>
 
           {/* Deferred Section (Optional) */}
-          <div className="bg-slate-50 p-3 rounded-lg border border-slate-200">
-            <div className="text-xs font-semibold text-slate-500 mb-2 uppercase tracking-wide">Optional / Credit Card</div>
+          <div className="p-3 border rounded-lg bg-slate-50 border-slate-200">
+            <div className="mb-2 text-xs font-semibold tracking-wide uppercase text-slate-500">Optional / Credit Card</div>
             <div className="grid grid-cols-2 gap-4">
               <input
                 type="number"
@@ -219,7 +219,7 @@ export default function App() {
                 placeholder="Cuota (1)"
                 value={formData.diferido}
                 onChange={handleChange}
-                className="w-full p-2 text-sm border border-slate-300 rounded bg-white focus:border-blue-500 outline-none"
+                className="w-full p-2 text-sm bg-white border rounded outline-none border-slate-300 focus:border-blue-500"
               />
               <input
                 type="number"
@@ -227,10 +227,10 @@ export default function App() {
                 placeholder="Total (12)"
                 value={formData.diferidoTotal}
                 onChange={handleChange}
-                className="w-full p-2 text-sm border border-slate-300 rounded bg-white focus:border-blue-500 outline-none"
+                className="w-full p-2 text-sm bg-white border rounded outline-none border-slate-300 focus:border-blue-500"
               />
             </div>
-            <div className="mt-3 flex items-center">
+            <div className="flex items-center mt-3">
               <input
                 type="checkbox"
                 id="recurrente"
@@ -245,15 +245,15 @@ export default function App() {
 
           {/* Status Messages */}
           {status === 'error' && (
-            <div className="flex items-start p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-              <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+            <div className="flex items-start p-3 text-sm text-red-700 rounded-lg bg-red-50">
+              <AlertCircle className="w-5 h-5 mr-2 shrink-0" />
               <span>{responseMsg}</span>
             </div>
           )}
 
           {status === 'success' && (
-            <div className="flex items-start p-3 bg-green-50 text-green-700 rounded-lg text-sm">
-              <CheckCircle className="w-5 h-5 mr-2 flex-shrink-0" />
+            <div className="flex items-start p-3 text-sm text-green-700 rounded-lg bg-green-50">
+              <CheckCircle className="w-5 h-5 mr-2 shrink-0" />
               <span>{responseMsg}</span>
             </div>
           )}
@@ -278,7 +278,7 @@ export default function App() {
           </button>
         </form>
       </div>
-      <div className="text-center mt-6 text-slate-400 text-xs">
+      <div className="mt-6 text-xs text-center text-slate-400">
         Secure Form • Sends directly to Google Sheets
       </div>
     </div>
